@@ -12,7 +12,7 @@ diccionario = {
 }
 
 print('-----Bienvenidos a Descifra y Adivina-----\n')
-print('Selecciona la dificultad:''\nFacil (5 intentos) = 1.''\nMedio (3 intentos) = 2.''\nDificil (1 intento) = 3.\n')
+print('Selecciona la dificultad: \nFacil (5 intentos) = 1. \nMedio (3 intentos) = 2. \nDificil (1 intento) = 3.\n')
 
 while True:
     dificultad = int(input('Elige 1, 2, 3: '))
@@ -34,8 +34,8 @@ palabra = random.choice(palabras)
 palabras_validas = diccionario[palabra]
 numero_palabras_validas = len(palabras_validas)
 
+print('\n¡Comienza el juego!')
 while numero_intentos < d:
-    print('\n¡Comienza el juego!')
     print('Palabra:', palabra,)
     print('Tienes',d - numero_intentos,'intentos restantes.')
 
@@ -46,8 +46,8 @@ while numero_intentos < d:
         print('Felicitaciones ganaste el juego.')
         break
     if numero_intentos == d:
-        print("\nPerdiste el juego. La respuesta correcta era:", numero_palabras_validas)
+        print('\nPerdiste el juego. La respuesta correcta era:', numero_palabras_validas)
     elif intento < numero_palabras_validas:
-        print("Más alto")
+        print('\nMás alto')
     elif intento > numero_palabras_validas:
-        print("Más bajo")
+        print('\nMás bajo')
