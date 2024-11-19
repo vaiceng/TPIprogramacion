@@ -10,8 +10,8 @@ def cargar_paises_y_capitales(archivo): # función para cargar el archivo y devo
     
 def juego_adivinar_capital(paises_y_capitales): # función principal del juego
     puntaje = 0  
-    
-    while True:
+    jugando = True
+    while jugando:
         pais, capital_correcta = random.choice(list(paises_y_capitales.items()))  # seleccionar un país aleatorio
         
         print("¿Cuál es la capital de", pais, "?")
@@ -29,11 +29,12 @@ def juego_adivinar_capital(paises_y_capitales): # función principal del juego
             print("¡Felicidades! Has alcanzado 10 puntos y ganado el juego. 🎉")
             break
         
-        jugar_nuevamente = input("¿Quieres jugar de nuevo? (s/n): ") # preguntar si quiere jugar de nuevo solo si no llego a 10 puntos
-        if jugar_nuevamente.lower() != 's':
+        jugar_nuevamente = input("¿Quieres jugar de nuevo? (s/n): ").strip().lower()
+        if jugar_nuevamente == 'n':  # Si el jugador elige "n", termina el juego
             print("Gracias por jugar. ¡Hasta la próxima!")
-            print("Puntaje final: ", puntaje)
-            break
+            jugando = False
+    print("Puntaje final:", puntaje)
 # cargar los países y capitales desde el archivo y empezar el juego
-paises_y_capitales = cargar_paises_y_capitales("C:/Users/usuario/OneDrive/Escritorio/uni/python/TPI/paises_y_capitales.txt")
-juego_adivinar_capital(paises_y_capitales)
+if __name__ == "__main__": 
+    paises_y_capitales = cargar_paises_y_capitales("paises_y_capitales.txt")
+    juego_adivinar_capital(paises_y_capitales)
