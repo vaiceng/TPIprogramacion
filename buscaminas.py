@@ -30,46 +30,36 @@ def mostrar_tablero(tablero):
         print(" ".join(str(celda) for celda in fila))
     print()
 
-def jugar_buscamina(filas, columnas, minas):
+def jugar_buscamina(filas=5, columnas=5, minas=5):
+    tablero = crear_tablero(filas, columnas, minas)
+    tablero_minas = contar_minas_adyacentes(tablero, filas, columnas)
+    tablero_visible = [["-" for _ in range(columnas)] for _ in range(filas)]
+
     while True:
-        tablero = crear_tablero(filas, columnas, minas)
-        tablero_minas = contar_minas_adyacentes(tablero, filas, columnas)
-        tablero_visible = [["-" for _ in range(columnas)] for _ in range(filas)]
-        
-        while True:
-            mostrar_tablero(tablero_visible)
-            try:
-                f = int(input("Selecciona una fila (1 a {}): ".format(filas))) - 1
-                c = int(input("Selecciona una columna (1 a {}): ".format(columnas))) - 1
-            except ValueError:
-                print("Por favor, ingresa un número válido.")
-                continue
+        mostrar_tablero(tablero_visible)
+        try:
+            f = int(input("Selecciona una fila (1 a {}): ".format(filas))) - 1
+            c = int(input("Selecciona una columna (1 a {}): ".format(columnas))) - 1
+        except ValueError:
+            print("Por favor, ingresa un número válido.")
+            continue
 
-            if f < 0 or f >= filas or c < 0 or c >= columnas:
-                print("Coordenadas fuera de rango. Intenta de nuevo.")
-                continue
+        if f < 0 or f >= filas or c < 0 or c >= columnas:
+            print("Coordenadas fuera de rango. Intenta de nuevo.")
+            continue
 
-            if tablero[f][c] == "*":
-                print("¡Has descubierto una mina! Fin del juego.")
-                mostrar_tablero(tablero_minas)
-                break
+        if tablero[f][c] == "*":
+            print("¡Has descubierto una mina! Fin del juego.")
+            mostrar_tablero(tablero_minas)
+            break  # Terminar el juego si se descubre una mina
 
-            tablero_visible[f][c] = tablero_minas[f][c]
+        tablero_visible[f][c] = tablero_minas[f][c]
 
-            casillas_no_minas = filas * columnas - minas
-            descubiertas = sum(fila.count("-") == 0 for fila in tablero_visible)
-            if descubiertas == casillas_no_minas:
-                print("¡Felicidades, has ganado!")
-                mostrar_tablero(tablero_minas)
-                break
-        # Preguntar si el jugador desea jugar de nuevo
-        jugar_de_nuevo = input("¿Quieres jugar de nuevo? (s/n): ").lower()
-        if jugar_de_nuevo != 's':
-            print("Gracias por jugar.")
-            break
+        casillas_no_minas = filas * columnas - minas
+        descubiertas = sum(fila.count("-") for fila in tablero_visible)
+        if descubiertas == casillas_no_minas:  # Todas las casillas no-mina descubiertas
+            print("¡Felicidades, has ganado!")
+            mostrar_tablero(tablero_minas)
+            break  # Terminar el juego si se descubren todas las casillas sin minas
 
-# Configuración del juego
-filas = 5
-columnas = 5
-minas = 5
-jugar_buscamina(filas, columnas, minas)
+    print("Gracias por jugar.")
